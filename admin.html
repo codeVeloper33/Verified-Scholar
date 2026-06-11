@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verified Scholars - Admin</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #F5F5F5;
+            padding: 20px;
+        }
+        .container { max-width: 1000px; margin: 0 auto; }
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border: 1px solid #E0E0E0;
+        }
+        h2, h3 { color: #000; margin-bottom: 15px; border-left: 4px solid #FFD700; padding-left: 15px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: 600; }
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #DDD;
+            border-radius: 10px;
+        }
+        textarea {
+            font-family: monospace;
+            min-height: 150px;
+        }
+        button {
+            background: #000;
+            color: #FFD700;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover { background: #FFD700; color: #000; }
+        .delete-btn {
+            background: #D32F2F;
+            color: white;
+        }
+        .delete-btn:hover { background: #B71C1C; }
+        .message {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 10px;
+            display: none;
+        }
+        .success { background: #E8F5E9; color: #2E7D32; display: block; }
+        .error { background: #FFEBEE; color: #D32F2F; display: block; }
+        .pin-code {
+            background: #FFD700;
+            color: #000;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-family: monospace;
+        }
+        .item-list {
+            margin-top: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .item {
+            background: #FAFAFA;
+            border: 1px solid #E0E0E0;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .item-checkbox {
+            width: 22px;
+            height: 22px;
+            cursor: pointer;
+        }
+        .item-preview {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 8px;
+            background: #EEE;
+        }
+        .item-details {
+            flex: 1;
+        }
+        .item-id {
+            font-size: 11px;
+            color: #888;
+            font-family: monospace;
+        }
+        .item-pin {
+            font-weight: bold;
+            font-size: 18px;
+            font-family: monospace;
+        }
+        .item-status {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+        .status-active {
+            background: #E8F5E9;
+            color: #2E7D32;
+        }
+        .status-used {
+            background: #FFEBEE;
+            color: #D32F2F;
+        }
+        .action-bar {
+            margin: 15px 0;
+            padding: 10px;
+            background: #F8F8F8;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .tab-btn {
+            background: #E0E0E0;
+            color: #000;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        .tab-btn.active {
+            background: #000;
+            color: #FFD700;
+        }
+        hr { margin: 20px 0; }
+        .badge {
+            background: #FFD700;
+            color: #000;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- LOGIN -->
+    <div id="loginScreen" class="card" style="text-align: center; max-width: 400px; margin: 100px auto;">
+        <h2>🔐 Admin Login</h2>
+        <input type="password" id="adminPassword" placeholder="Enter password" style="margin: 15px 0;">
+        <button onclick="login()">Login</button>
+        <div id="loginMsg" class="message"></div>
+    </div>
+
+    <!-- DASHBOARD -->
+    <div id="dashboard" style="display: none;">
+        <div class="tabs">
+            <button class="tab-btn active" onclick="showTab('generate')">🔑 Generate PIN</button>
+            <button class="tab-btn" onclick="showTab('upload')">📤 Upload</button>
+            <button class="tab-btn" onclick="showTab('questions')">📋 Questions</button>
+            <button class="tab-btn" onclick="showTab('pins')">🔐 PINs</button>
+        </div>
+
+        <!-- Tab 1: Generate PIN -->
+        <div id="generateTab" class="card">
+            <h2>Generate PIN</h2>
+            <div class="form-group">
+                <label>Student Name</label>
+                <input type="text" id="studentName" placeholder="John Doe">
+            </div>
+            <div class="form-group">
+                <label>Student Phone</label>
+                <input type="text" id="studentPhone" placeholder="08012345678">
+            </div>
+            <div class="form-group">
+                <label>Subject</label>
+                <select id="pinSubject">
+                    <option value="mathematics">Mathematics</option>
+                    <option value="english">English</option>
+                    <option value="physics">Physics</option>
+                    <option value="chemistry">Chemistry</option>
+                    <option value="biology">Biology</option>
+                </select>
+            </div>
+            <button onclick="generatePIN()">Generate PIN</button>
+            <div id="pinResult" class="message"></div>
+        </div>
+
+        <!-- Tab 2: Upload -->
+        <div id="uploadTab" class="card" style="display: none;">
+            <h2>Upload Questions</h2>
+            <div class="form-group">
+                <label>Subject</label>
+                <select id="qSubject">
+                    <option value="mathematics">Mathematics</option>
+                    <option value="english">English</option>
+                    <option value="physics">Physics</option>
+                    <option value="chemistry">Chemistry</option>
+                    <option value="biology">Biology</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Image Links (one per line)</label>
+                <textarea id="questionLinks" placeholder="https://i.ibb.co/xxx/image1.jpg
+https://i.ibb.co/xxx/image2.jpg"></textarea>
+            </div>
+            <button onclick="uploadQuestions()">Upload All</button>
+            <div id="uploadMsg" class="message"></div>
+            
+            <hr>
+            
+            <h2>Upload Answers</h2>
+            <div class="form-group">
+                <label>Subject</label>
+                <select id="aSubject">
+                    <option value="mathematics">Mathematics</option>
+                    <option value="english">English</option>
+                    <option value="physics">Physics</option>
+                    <option value="chemistry">Chemistry</option>
+                    <option value="biology">Biology</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Answer Links (one per line)</label>
+                <textarea id="answerLinks" placeholder="https://i.ibb.co/xxx/answer1.jpg
+https://i.ibb.co/xxx/answer2.jpg"></textarea>
+            </div>
+            <button onclick="uploadAnswers()">Upload All</button>
+            <div id="answerMsg" class="message"></div>
+        </div>
+
+        <!-- Tab 3: Manage Questions -->
+        <div id="questionsTab" class="card" style="display: none;">
+            <h2>Manage Questions</h2>
+            <div class="form-group">
+                <label>Select Subject</label>
+                <select id="manageSubject" onchange="loadQuestions()">
+                    <option value="mathematics">Mathematics</option>
+                    <option value="english">English</option>
+                    <option value="physics">Physics</option>
+                    <option value="chemistry">Chemistry</option>
+                    <option value="biology">Biology</option>
+                </select>
+            </div>
+            
+            <div class="action-bar">
+                <button class="select-all-btn" onclick="selectAllQuestions()">✅ Select All</button>
+                <button onclick="deselectAllQuestions()">❌ Deselect All</button>
+                <button class="delete-btn" onclick="deleteSelectedQuestions()">🗑️ Delete Selected</button>
+                <button onclick="loadQuestions()">🔄 Refresh</button>
+                <span class="badge" id="selectedCount">0 selected</span>
+            </div>
+            
+            <div id="questionsList" class="item-list">
+                <p>Loading...</p>
+            </div>
+        </div>
+
+        <!-- Tab 4: Manage PINs -->
+        <div id="pinsTab" class="card" style="display: none;">
+            <h2>Manage PINs</h2>
+            
+            <div class="action-bar">
+                <button class="select-all-btn" onclick="selectAllPins()">✅ Select All</button>
+                <button onclick="deselectAllPins()">❌ Deselect All</button>
+                <button class="delete-btn" onclick="deleteSelectedPins()">🗑️ Delete Selected</button>
+                <button onclick="loadPins()">🔄 Refresh</button>
+                <span class="badge" id="pinSelectedCount">0 selected</span>
+            </div>
+            
+            <div id="pinsList" class="item-list">
+                <p>Loading...</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwwxFsxxtKcQMDfaQ5ts1OmjsWyYe1K9KESfdCQALgyfauc6cdDZ-qVjAOD0rxACwm1/exec";
+    const ADMIN_SECRET = "XPRESS_ADMIN_2024_SECRET";
+
+    let questionsData = [];
+    let pinsData = [];
+
+    function login() {
+        const pwd = document.getElementById('adminPassword').value;
+        if (pwd === 'mathew2026') {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'block';
+        } else {
+            showMessage('loginMsg', 'Wrong password', 'error');
+        }
+    }
+
+    function showTab(tabName) {
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        event.target.classList.add('active');
+        
+        document.getElementById('generateTab').style.display = 'none';
+        document.getElementById('uploadTab').style.display = 'none';
+        document.getElementById('questionsTab').style.display = 'none';
+        document.getElementById('pinsTab').style.display = 'none';
+        
+        document.getElementById(`${tabName}Tab`).style.display = 'block';
+        
+        if (tabName === 'questions') loadQuestions();
+        if (tabName === 'pins') loadPins();
+    }
+
+    // Generate PIN
+    async function generatePIN() {
+        const name = document.getElementById('studentName').value;
+        const phone = document.getElementById('studentPhone').value;
+        const subject = document.getElementById('pinSubject').value;
+        
+        if (!name || !phone) {
+            showMessage('pinResult', 'Fill all fields', 'error');
+            return;
+        }
+        
+        try {
+            const res = await fetch(GOOGLE_SCRIPT_URL, {
+                method: 'POST',
+                body: JSON.stringify({
+                    action: 'generatePin',
+                    adminKey: ADMIN_SECRET,
+                    studentName: name,
+                    studentPhone: phone,
+                    subjectId: subject
+                })
+            });
+            const data = await res.json();
+            if (data.success) {
+                document.getElementById('pinResult').innerHTML = `✅ PIN: <span class="pin-code">${data.pinCode}</span> <button onclick="copyToClipboard('${data.pinCode}')">Copy</button>`;
+                document.getElementById('pinResult').className = 'message success';
+                document.getElementById('studentName').value = '';
+                document.getElementById('studentPhone').value = '';
+            } else {
+                showMessage('pinResult', 'Error', 'error');
+            }
+        } catch(e) {
+            showMessage('pinResult', 'Network error', 'error');
+        }
+    }
+
+    // Upload Questions
+    async function uploadQuestions() {
+        const subject = document.getElementById('qSubject').value;
+        const linksText = document.getElementById('questionLinks').value;
+        if (!linksText.trim()) { showMessage('uploadMsg', 'Paste links', 'error'); return; }
+        
+        const links = linksText.split('\n').filter(l => l.trim());
+        let success = 0;
+        showMessage('uploadMsg', `Uploading ${links.length}...`, 'success');
+        
+        for (const link of links) {
+            if (!link.trim()) continue;
+            try {
+                const res = await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        action: 'addQuestion',
+                        adminKey: ADMIN_SECRET,
+                        subjectId: subject,
+                        questionImageUrl: link.trim(),
+                        questionText: ''
+                    })
+                });
+                const data = await res.json();
+                if (data.success) success++;
+            } catch(e) {}
+        }
+        showMessage('uploadMsg', `✅ ${success} uploaded`, 'success');
+        document.getElementById('questionLinks').value = '';
+        loadQuestions();
+    }
+
+    // Upload Answers
+    async function uploadAnswers() {
+        const subject = document.getElementById('aSubject').value;
+        const linksText = document.getElementById('answerLinks').value;
+        if (!linksText.trim()) { showMessage('answerMsg', 'Paste links', 'error'); return; }
+        
+        const links = linksText.split('\n').filter(l => l.trim());
+        let success = 0;
+        showMessage('answerMsg', `Uploading ${links.length}...`, 'success');
+        
+        for (const link of links) {
+            if (!link.trim()) continue;
+            try {
+                const res = await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        action: 'addAnswer',
+                        adminKey: ADMIN_SECRET,
+                        questionId: `ANS_${Date.now()}`,
+                        answerImageUrl: link.trim(),
+                        answerText: ''
+                    })
+                });
+                const data = await res.json();
+                if (data.success) success++;
+            } catch(e) {}
+        }
+        showMessage('answerMsg', `✅ ${success} uploaded`, 'success');
+        document.getElementById('answerLinks').value = '';
+    }
+
+    // Load Questions
+    async function loadQuestions() {
+        const subject = document.getElementById('manageSubject').value;
+        const container = document.getElementById('questionsList');
+        container.innerHTML = '<p>Loading...</p>';
+        
+        try {
+            const res = await fetch(`${GOOGLE_SCRIPT_URL}?action=getQuestions&subjectId=${subject}`);
+            const data = await res.json();
+            
+            if (data.success && data.questions) {
+                questionsData = data.questions.map(q => ({ ...q, selected: false }));
+                renderQuestions();
+            } else {
+                container.innerHTML = '<p>No questions found</p>';
+            }
+        } catch(e) {
+            container.innerHTML = '<p>Error loading</p>';
+        }
+    }
+
+    function renderQuestions() {
+        const container = document.getElementById('questionsList');
+        if (questionsData.length === 0) {
+            container.innerHTML = '<p>No questions for this subject</p>';
+            return;
+        }
+        
+        let html = '';
+        questionsData.forEach((q, index) => {
+            html += `
+                <div class="item">
+                    <input type="checkbox" class="item-checkbox" data-index="${index}" ${q.selected ? 'checked' : ''} onchange="toggleQuestion(${index})">
+                    <img src="${q.questionImageUrl}" class="item-preview" onerror="this.src='https://via.placeholder.com/60?text=No+Image'">
+                    <div class="item-details">
+                        <div class="item-id">${q.id.substring(0, 30)}...</div>
+                        <small>Subject: ${document.getElementById('manageSubject').value}</small>
+                    </div>
+                    <button class="delete-btn" onclick="deleteSingleQuestion('${q.id}')">Delete</button>
+                </div>
+            `;
+        });
+        
+        const selectedCount = questionsData.filter(q => q.selected).length;
+        document.getElementById('selectedCount').innerHTML = `${selectedCount} selected`;
+        container.innerHTML = html;
+    }
+
+    function toggleQuestion(index) {
+        questionsData[index].selected = !questionsData[index].selected;
+        renderQuestions();
+    }
+
+    function selectAllQuestions() {
+        questionsData.forEach(q => q.selected = true);
+        renderQuestions();
+    }
+
+    function deselectAllQuestions() {
+        questionsData.forEach(q => q.selected = false);
+        renderQuestions();
+    }
+
+    async function deleteSelectedQuestions() {
+        const selected = questionsData.filter(q => q.selected);
+        if (selected.length === 0) {
+            alert('Select questions to delete');
+            return;
+        }
+        
+        if (confirm(`Delete ${selected.length} question(s)?`)) {
+            let deleted = 0;
+            for (const q of selected) {
+                try {
+                    const res = await fetch(GOOGLE_SCRIPT_URL, {
+                        method: 'POST',
+                        body: JSON.stringify({
+                            action: 'deleteQuestion',
+                            adminKey: ADMIN_SECRET,
+                            id: q.id
+                        })
+                    });
+                    const data = await res.json();
+                    if (data.success) deleted++;
+                } catch(e) {}
+            }
+            alert(`✅ ${deleted} deleted`);
+            loadQuestions();
+        }
+    }
+
+    async function deleteSingleQuestion(id) {
+        if (confirm('Delete this question?')) {
+            try {
+                const res = await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        action: 'deleteQuestion',
+                        adminKey: ADMIN_SECRET,
+                        id: id
+                    })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    alert('Deleted');
+                    loadQuestions();
+                } else {
+                    alert('Failed');
+                }
+            } catch(e) {
+                alert('Error');
+            }
+        }
+    }
+
+    // Load PINs
+    async function loadPins() {
+        const container = document.getElementById('pinsList');
+        container.innerHTML = '<p>Loading...</p>';
+        
+        try {
+            const res = await fetch(GOOGLE_SCRIPT_URL, {
+                method: 'POST',
+                body: JSON.stringify({ action: 'getAllPins', adminKey: ADMIN_SECRET })
+            });
+            const data = await res.json();
+            
+            if (data.success && data.pins) {
+                pinsData = data.pins.map(p => ({ ...p, selected: false }));
+                renderPins();
+            } else {
+                container.innerHTML = '<p>No PINs found</p>';
+            }
+        } catch(e) {
+            container.innerHTML = '<p>Error loading</p>';
+        }
+    }
+
+    function renderPins() {
+        const container = document.getElementById('pinsList');
+        if (pinsData.length === 0) {
+            container.innerHTML = '<p>No PINs found</p>';
+            return;
+        }
+        
+        let html = '';
+        pinsData.forEach((p, index) => {
+            html += `
+                <div class="item">
+                    <input type="checkbox" class="item-checkbox" data-index="${index}" ${p.selected ? 'checked' : ''} onchange="togglePin(${index})">
+                    <div class="item-details">
+                        <div class="item-pin">${p.pinCode}</div>
+                        <div>${p.studentName || '-'} | ${p.studentPhone || '-'}</div>
+                        <div><span class="item-status ${p.status === 'active' ? 'status-active' : 'status-used'}">${p.status === 'active' ? 'Active' : 'Used'}</span></div>
+                    </div>
+                    <button class="delete-btn" onclick="deleteSinglePin('${p.pinCode}')">Delete</button>
+                </div>
+            `;
+        });
+        
+        const selectedCount = pinsData.filter(p => p.selected).length;
+        document.getElementById('pinSelectedCount').innerHTML = `${selectedCount} selected`;
+        container.innerHTML = html;
+    }
+
+    function togglePin(index) {
+        pinsData[index].selected = !pinsData[index].selected;
+        renderPins();
+    }
+
+    function selectAllPins() {
+        pinsData.forEach(p => p.selected = true);
+        renderPins();
+    }
+
+    function deselectAllPins() {
+        pinsData.forEach(p => p.selected = false);
+        renderPins();
+    }
+
+    async function deleteSelectedPins() {
+        const selected = pinsData.filter(p => p.selected);
+        if (selected.length === 0) {
+            alert('Select PINs to delete');
+            return;
+        }
+        
+        if (confirm(`Delete ${selected.length} PIN(s)?`)) {
+            let deleted = 0;
+            for (const p of selected) {
+                try {
+                    const res = await fetch(GOOGLE_SCRIPT_URL, {
+                        method: 'POST',
+                        body: JSON.stringify({
+                            action: 'deletePin',
+                            adminKey: ADMIN_SECRET,
+                            pinCode: p.pinCode
+                        })
+                    });
+                    const data = await res.json();
+                    if (data.success) deleted++;
+                } catch(e) {}
+            }
+            alert(`✅ ${deleted} PIN(s) deleted`);
+            loadPins();
+        }
+    }
+
+    async function deleteSinglePin(pinCode) {
+        if (confirm(`Delete PIN ${pinCode}?`)) {
+            try {
+                const res = await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        action: 'deletePin',
+                        adminKey: ADMIN_SECRET,
+                        pinCode: pinCode
+                    })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    alert('Deleted');
+                    loadPins();
+                } else {
+                    alert('Failed');
+                }
+            } catch(e) {
+                alert('Error');
+            }
+        }
+    }
+
+    function showMessage(el, msg, type) {
+        const elem = document.getElementById(el);
+        elem.innerHTML = msg;
+        elem.className = `message ${type}`;
+        setTimeout(() => elem.style.display = 'none', 4000);
+    }
+
+    function copyToClipboard(text) {
+        navigator.clipboard.writeText(text);
+        alert('Copied: ' + text);
+    }
+</script>
+</body>
+</html>
