@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Verified Scholars | Nigeria's Most Trusted Expo Hub</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', 'Poppins', sans-serif;
+            background: #FFFFFF;
+            color: #1A1A1A;
+        }
+        .top-banner {
+            background: #000000;
+            color: #FFD700;
+            text-align: center;
+            padding: 10px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .hero {
+            background: linear-gradient(135deg, #000000 0%, #1A1A1A 100%);
+            padding: 50px 20px;
+            text-align: center;
+            border-bottom: 3px solid #FFD700;
+        }
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255,215,0,0.15);
+            padding: 6px 18px;
+            border-radius: 30px;
+            font-size: 12px;
+            color: #FFD700;
+            margin-bottom: 15px;
+        }
+        h1 { font-size: 2rem; margin-bottom: 10px; color: #FFFFFF; }
+        .hero-highlight { color: #FFD700; }
+        .hero-sub { font-size: 1rem; color: #CCCCCC; margin-bottom: 25px; }
+        .whatsapp-btn-hero {
+            display: inline-block;
+            background: #25D366;
+            color: white;
+            padding: 12px 28px;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .section { padding: 40px 20px; max-width: 1200px; margin: 0 auto; }
+        .section-title { text-align: center; font-size: 1.8rem; margin-bottom: 30px; color: #000000; }
+        .subject-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+        .subject-chip {
+            background: #F5F5F5;
+            padding: 10px 22px;
+            border-radius: 40px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #000000;
+            border: 1px solid #E0E0E0;
+        }
+        .pricing-card {
+            background: #F8F8F8;
+            border-radius: 30px;
+            padding: 35px;
+            text-align: center;
+            border: 1px solid #FFD700;
+            margin: 30px 0;
+        }
+        .price { font-size: 3rem; color: #FFD700; font-weight: bold; }
+        .feature-list { list-style: none; margin: 25px 0; }
+        .feature-list li { margin: 12px 0; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .pin-portal {
+            background: #F8F8F8;
+            border-radius: 30px;
+            padding: 35px;
+            margin: 30px 0;
+            border: 2px solid #FFD700;
+        }
+        .pin-input-group { margin: 20px 0; }
+        .pin-input-group label { display: block; margin-bottom: 8px; font-weight: 600; color: #000; }
+        .pin-input-group input, .pin-input-group select {
+            width: 100%;
+            padding: 15px;
+            border-radius: 15px;
+            border: 1px solid #DDD;
+            background: #FFFFFF;
+            color: #000;
+            font-size: 16px;
+        }
+        .pin-btn {
+            background: #000000;
+            color: #FFD700;
+            padding: 15px;
+            border: none;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+        .pin-btn:hover { background: #FFD700; color: #000000; }
+        .qa-container { margin-top: 30px; }
+        .qa-item {
+            background: #F8F8F8;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-left: 5px solid #FFD700;
+        }
+        .qa-question img, .qa-answer img {
+            max-width: 100%;
+            border-radius: 15px;
+            margin: 15px 0;
+        }
+        .social-section {
+            text-align: center;
+            margin: 30px 0;
+            padding: 25px;
+            background: #F0F0F0;
+            border-radius: 20px;
+        }
+        .social-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+        .whatsapp-channel, .telegram-channel {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 25px;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .whatsapp-channel { background: #25D366; color: white; }
+        .telegram-channel { background: #0088cc; color: white; }
+        .footer { text-align: center; padding: 30px; background: #000000; color: #888; font-size: 12px; }
+        .hidden { display: none; }
+        .message { margin-top: 15px; padding: 12px; border-radius: 12px; text-align: center; }
+        .error-message { background: #FFEEEE; color: #D32F2F; border: 1px solid #FFCDD2; }
+        .success-message { background: #E8F5E9; color: #2E7D32; border: 1px solid #C8E6C9; }
+        .loading { text-align: center; padding: 20px; color: #FFD700; }
+        @media (max-width: 768px) { h1 { font-size: 1.6rem; } }
+    </style>
+</head>
+<body>
+
+<div class="top-banner">🔥 2026 WAEC EXPO AVAILABLE — Get Answers 6-9 Hours Before Exam! 🔥</div>
+
+<div class="hero">
+    <div class="hero-badge">⭐ VERIFIED SCHOLARS ⭐</div>
+    <h1>Nigeria's Most<br><span class="hero-highlight">Trusted Expo Answer Hub</span></h1>
+    <div class="hero-sub">Get 100% verified WAEC, NECO and NABTEB answers sent directly to your WhatsApp — 6 to 9 hours before every exam.</div>
+    <a href="https://wa.me/2348130014190" class="whatsapp-btn-hero">📱 WhatsApp: +234 813 001 4190</a>
+</div>
+
+<div class="section">
+    <div class="subject-grid">
+        <div class="subject-chip">📐 MATHEMATICS</div>
+        <div class="subject-chip">📖 ENGLISH</div>
+        <div class="subject-chip">⚡ PHYSICS</div>
+        <div class="subject-chip">🧪 CHEMISTRY</div>
+        <div class="subject-chip">🧬 BIOLOGY</div>
+        <div class="subject-chip">📊 ECONOMICS</div>
+        <div class="subject-chip">🏛️ GOVERNMENT</div>
+        <div class="subject-chip">📚 LITERATURE</div>
+        <div class="subject-chip">🌍 GEOGRAPHY</div>
+        <div class="subject-chip">✝️ CRS/IRS</div>
+        <div class="subject-chip">💼 COMMERCE</div>
+        <div class="subject-chip">📈 ACCOUNTING</div>
+        <div class="subject-chip">🌾 AGRIC SCIENCE</div>
+        <div class="subject-chip">📐 FURTHER MATHS</div>
+        <div class="subject-chip">📜 CIVIC EDUCATION</div>
+    </div>
+
+    <div class="pricing-card">
+        <h3>📱 Subscription Plan</h3>
+        <p style="color:#666;">WhatsApp delivery only — answers sent 6-9 hours before exam</p>
+        <div class="price">₦2,000 <small>/ per subject</small></div>
+        <ul class="feature-list">
+            <li>✅ Delivered via WhatsApp only</li>
+            <li>✅ Answers 6-9 hours before exam</li>
+            <li>✅ Objective (OBJ) + Theory / Essay</li>
+            <li>✅ Practicals included where applicable</li>
+            <li>✅ All subjects — Science, Art, Commercial</li>
+        </ul>
+        <p><strong>IMPORTANT:</strong> After payment send via WhatsApp: (i) Full Name (ii) Subject(s) (iii) Amount Paid (iv) Phone Number to <strong>+234 813 001 4190</strong></p>
+    </div>
+
+    <!-- PIN ACCESS PORTAL -->
+    <div class="pin-portal" id="pinPortal">
+        <h3 style="text-align:center; color:#000;">🔐 Subscriber Answer Portal</h3>
+        <p style="text-align:center; color:#666;">Enter your PIN to access questions & answers</p>
+        <div class="pin-input-group">
+            <label>Select Subject</label>
+            <select id="subjectSelect">
+                <option value="mathematics">📐 Mathematics - ₦2000</option>
+                <option value="english">📖 English - ₦2000</option>
+                <option value="physics">⚡ Physics - ₦2000</option>
+                <option value="chemistry">🧪 Chemistry - ₦2000</option>
+                <option value="biology">🧬 Biology - ₦2000</option>
+            </select>
+        </div>
+        <div class="pin-input-group">
+            <label>Enter PIN</label>
+            <input type="text" id="pinInput" placeholder="e.g., MATH-ABC123">
+        </div>
+        <button class="pin-btn" id="verifyBtn">🔓 Access Now</button>
+        <div id="pinMessage" class="message"></div>
+    </div>
+
+    <!-- Q&A DISPLAY AREA -->
+    <div id="qaDisplay" class="hidden"></div>
+
+    <!-- Social Channels -->
+    <div class="social-section">
+        <h4 style="color:#000;">📢 Join Our Official Channels</h4>
+        <div class="social-buttons">
+            <a href="https://whatsapp.com/channel/0029Vb8MGGHAu3aHAoEPlR3l" class="whatsapp-channel" target="_blank">💬 WhatsApp Channel</a>
+            <a href="https://t.me/verif1ed_waec" class="telegram-channel" target="_blank">📢 Telegram Channel</a>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    <p>© 2026 Verified Scholars — Trusted Expo Hub. WhatsApp: +234 813 001 4190</p>
+</div>
+
+<script>
+    // ================= YOUR APPS SCRIPT URL =================
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby6bHFowTeq8ydOr3CpjDFyS0EPEhTkVoNc38iHaL4NR_m3UspTFBBTBvtqlY_NHDeJ/exec";
+
+    // ================= VERIFY PIN =================
+    document.getElementById('verifyBtn').addEventListener('click', async () => {
+        const subjectId = document.getElementById('subjectSelect').value;
+        const pin = document.getElementById('pinInput').value.toUpperCase();
+        const msgDiv = document.getElementById('pinMessage');
+        
+        if (!subjectId) {
+            msgDiv.innerHTML = '❌ Please select a subject';
+            msgDiv.className = 'message error-message';
+            return;
+        }
+        if (!pin) {
+            msgDiv.innerHTML = '❌ Please enter your PIN';
+            msgDiv.className = 'message error-message';
+            return;
+        }
+        
+        msgDiv.innerHTML = '⏳ Verifying PIN...';
+        msgDiv.className = 'message';
+        
+        try {
+            const verifyRes = await fetch(`${GOOGLE_SCRIPT_URL}?action=verifyPin&pin=${pin}&subjectId=${subjectId}`);
+            const verifyData = await verifyRes.json();
+            
+            if (!verifyData.success) {
+                msgDiv.innerHTML = '❌ ' + verifyData.message;
+                msgDiv.className = 'message error-message';
+                return;
+            }
+            
+            msgDiv.innerHTML = '✅ PIN verified! Loading questions...';
+            msgDiv.className = 'message success-message';
+            
+            await loadQuestions(subjectId);
+            
+            document.getElementById('pinPortal').style.display = 'none';
+            document.getElementById('qaDisplay').classList.remove('hidden');
+            
+        } catch (err) {
+            msgDiv.innerHTML = '❌ Network error. Try again.';
+            msgDiv.className = 'message error-message';
+        }
+    });
+    
+    // ================= LOAD QUESTIONS (IMAGES ONLY) =================
+    async function loadQuestions(subjectId) {
+        const qaContainer = document.getElementById('qaDisplay');
+        qaContainer.innerHTML = '<div class="loading">📖 Loading questions...</div>';
+        
+        try {
+            const response = await fetch(`${GOOGLE_SCRIPT_URL}?action=getQuestions&subjectId=${subjectId}`);
+            const data = await response.json();
+            
+            console.log('Data from server:', data);
+            
+            if (!data.success || !data.questions || data.questions.length === 0) {
+                qaContainer.innerHTML = '<div style="text-align:center;">⚠️ No questions uploaded yet for this subject.</div>';
+                return;
+            }
+            
+            let html = '<h3 style="margin-bottom:20px; color:#000;">📝 Questions</h3>';
+            
+            for (let i = 0; i < data.questions.length; i++) {
+                const q = data.questions[i];
+                html += `
+                    <div class="qa-item">
+                        <div class="qa-question">
+                            <strong>Question ${i+1}:</strong><br>
+                            ${q.questionText ? `<p>${q.questionText}</p>` : ''}
+                            ${q.questionImageUrl ? `<img src="${q.questionImageUrl}" alt="Question ${i+1}" loading="lazy" style="max-width:100%; border-radius:10px;">` : ''}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            qaContainer.innerHTML = html;
+            
+        } catch (err) {
+            console.error('Error:', err);
+            qaContainer.innerHTML = '<div style="text-align:center;">❌ Error loading content. Please refresh.</div>';
+        }
+    }
+</script>
+</body>
+</html>
