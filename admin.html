@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verified Scholars - Admin Panel</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #FFFFFF;
+            color: #1A1A1A;
+            padding: 20px;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        .card {
+            background: #F8F8F8;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid #E0E0E0;
+        }
+        h2, h3 { color: #000; margin-bottom: 15px; border-left: 4px solid #FFD700; padding-left: 15px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: 600; }
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #DDD;
+            border-radius: 10px;
+            background: #FFFFFF;
+        }
+        textarea {
+            font-family: monospace;
+            min-height: 150px;
+        }
+        button {
+            background: #000;
+            color: #FFD700;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover { background: #FFD700; color: #000; }
+        .message {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 10px;
+            display: none;
+        }
+        .success { background: #E8F5E9; color: #2E7D32; display: block; }
+        .error { background: #FFEBEE; color: #D32F2F; display: block; }
+        .pin-code {
+            background: #FFD700;
+            color: #000;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-family: monospace;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #E0E0E0;
+        }
+        th { background: #F0F0F0; }
+        .delete-btn {
+            background: #D32F2F;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .delete-btn:hover { background: #B71C1C; color: white; }
+        .preview-img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .tab-btn {
+            background: #E0E0E0;
+            color: #000;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 0;
+        }
+        .tab-btn.active {
+            background: #000;
+            color: #FFD700;
+        }
+        hr { margin: 20px 0; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- LOGIN -->
+    <div id="loginScreen" class="card" style="text-align: center;">
+        <h2>🔐 Admin Login</h2>
+        <input type="password" id="adminPassword" placeholder="Enter password" style="margin: 15px 0;">
+        <button onclick="login()">Login</button>
+        <div id="loginMsg" class="message"></div>
+    </div>
+
+    <!-- DASHBOARD -->
+    <div id="dashboard" style="display: none;">
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="showTab('generate')">🔑 Generate PIN</button>
+            <button class="tab-btn" onclick="showTab('upload')">📤 Upload</button>
+            <button class="tab-btn" onclick="showTab('manage')">🗑️ Manage Content</button>
+            <button class="tab-btn" onclick="showTab('pins')">📋 View PINs</button>
+        </div>
+
+        <!-- Tab 1: Generate PIN -->
+        <div id="generateTab" class="card">
+            <h2>🔑 Generate PIN</h2>
+            <div class="form-group">
+                <label>Student Name</label>
+                <input type="text" id="studentName" placeholder="John Doe">
+            </div>
+            <div class="form-group">
+                <label>Student Phone</label>
+                <input type="text" id="studentPhone" placeholder="08012345678">
+            </div>
+            <div class="form-group">
+                <label>Subject</label>
+                <select id="pinSubject">
+                    <option value="mathematics">Mathematics</option>
+                    <option value="english">English</option>
+                    <option value="physics">Physics</option>
+                    <option value="chemistry">Chemistry</option>
+                    <option value="biology">Biology</option>
+                </select>
+            </div>
+            <button onclick="generatePIN()">Generate PIN</button>
+            <div id="pinResult" class="message"></div>
+        </div>
+
+        <!-- Tab 2: Upload -->
+        <div id="uploadTab" class="card" style="display: none;">
+            <h2>📤 Upload Question Images</h2>
+            <div class="form-group">
+                <label>Subject</label>
+                <select id="qSubject">
+                    <option value="mathematics">Mathematics</option>
+                    <option value="english">English</option>
+                    <option value="physics">Physics</option>
+                    <option value="chemistry">Chemistry</option>
+                    <option value="biology">Biology</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Image Links (one per line)</label>
+                <textarea id="questionLinks" placeholder="https://i.ibb.co/xxx/image1.jpg
+https://i.ibb.co/xxx/image2.jpg"></textarea>
+            </div>
+            <button onclick="uploadQuestions()">Upload All Questions</button>
+            <div id="uploadMsg" class="message"></div>
+            
+            <hr>
+            
+            <h2>📤 Upload Answer Images</h2>
+            <div class="form-group">
+                <label>Subject</label>
+                <select id="aSubject">
+                    <option value="mathematics">Mathematics</option>
+                    <option value="english">English</option>
+                    <option value="physics">Physics</option>
+                    <option value="chemistry">Chemistry</option>
+                    <option value="biology">Biology</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Answer Image Links (one per line)</label>
+                <textarea id="answerLinks" placeholder="https://i.ibb.co/xxx/answer1.jpg
+https://i.ibb.co/xxx/answer2.jpg"></textarea>
+            </div>
+            <button onclick="uploadAnswers()">Upload All Answers</button>
+            <div id="answerMsg" class="message"></div>
+        </div>
+
+        <!-- Tab 3: Manage Content (VIEW & DELETE) -->
+        <div id="manageTab" class="card" style="display: none;">
+            <h2>🗑️ Manage Questions</h2>
+            <div class="form-group">
+                <label>Select Subject</label>
+                <select id="manageSubject" onchange="loadManageQuestions()">
+                    <option value="mathematics">Mathematics</option>
+                    <option value="english">English</option>
+                    <option value="physics">Physics</option>
+                    <option value="chemistry">Chemistry</option>
+                    <option value="biology">Biology</option>
+                </select>
+            </div>
+            <button onclick="loadManageQuestions()">Refresh Questions</button>
+            <div id="questionsManageList"></div>
+            
+            <hr>
+            
+            <h2>🗑️ Manage Answers</h2>
+            <button onclick="loadManageAnswers()">Refresh Answers</button>
+            <div id="answersManageList"></div>
+        </div>
+
+        <!-- Tab 4: View PINs -->
+        <div id="pinsTab" class="card" style="display: none;">
+            <h2>📋 All PINs</h2>
+            <button onclick="loadPins()">Refresh</button>
+            <div id="pinsList"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // YOUR GOOGLE SCRIPT URL - UPDATE THIS
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz3qc01uMl-1V7-0MaQuYy6Gbuqwq4fHN1EeDAwX0KFKOURyF7mswmAx_sa1WPpdlmW/exec";
+    const ADMIN_SECRET = "XPRESS_ADMIN_2024_SECRET";
+
+    function login() {
+        const pwd = document.getElementById('adminPassword').value;
+        if (pwd === 'mathew2026') {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'block';
+            loadPins();
+        } else {
+            showMessage('loginMsg', 'Wrong password', 'error');
+        }
+    }
+
+    function showTab(tabName) {
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        event.target.classList.add('active');
+        
+        document.getElementById('generateTab').style.display = 'none';
+        document.getElementById('uploadTab').style.display = 'none';
+        document.getElementById('manageTab').style.display = 'none';
+        document.getElementById('pinsTab').style.display = 'none';
+        
+        document.getElementById(`${tabName}Tab`).style.display = 'block';
+        
+        if (tabName === 'manage') {
+            loadManageQuestions();
+            loadManageAnswers();
+        }
+    }
+
+    // Generate PIN
+    async function generatePIN() {
+        const name = document.getElementById('studentName').value;
+        const phone = document.getElementById('studentPhone').value;
+        const subject = document.getElementById('pinSubject').value;
+        
+        if (!name || !phone) {
+            showMessage('pinResult', 'Fill all fields', 'error');
+            return;
+        }
+        
+        try {
+            const res = await fetch(GOOGLE_SCRIPT_URL, {
+                method: 'POST',
+                body: JSON.stringify({
+                    action: 'generatePin',
+                    adminKey: ADMIN_SECRET,
+                    studentName: name,
+                    studentPhone: phone,
+                    subjectId: subject
+                })
+            });
+            const data = await res.json();
+            if (data.success) {
+                document.getElementById('pinResult').innerHTML = `✅ PIN: <span class="pin-code">${data.pinCode}</span> <button onclick="copyToClipboard('${data.pinCode}')">Copy</button>`;
+                document.getElementById('pinResult').className = 'message success';
+                document.getElementById('studentName').value = '';
+                document.getElementById('studentPhone').value = '';
+                loadPins();
+            } else {
+                showMessage('pinResult', 'Error: ' + data.error, 'error');
+            }
+        } catch(e) {
+            showMessage('pinResult', 'Network error', 'error');
+        }
+    }
+
+    // Upload Questions
+    async function uploadQuestions() {
+        const subject = document.getElementById('qSubject').value;
+        const linksText = document.getElementById('questionLinks').value;
+        
+        if (!linksText.trim()) {
+            showMessage('uploadMsg', 'Paste image links', 'error');
+            return;
+        }
+        
+        const links = linksText.split('\n').filter(l => l.trim());
+        let success = 0;
+        
+        showMessage('uploadMsg', `Uploading ${links.length} questions...`, 'success');
+        
+        for (let i = 0; i < links.length; i++) {
+            const link = links[i].trim();
+            if (!link) continue;
+            try {
+                const res = await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        action: 'addQuestion',
+                        adminKey: ADMIN_SECRET,
+                        subjectId: subject,
+                        questionImageUrl: link,
+                        questionText: ''
+                    })
+                });
+                const data = await res.json();
+                if (data.success) success++;
+            } catch(e) {}
+        }
+        
+        showMessage('uploadMsg', `✅ Done! ${success} uploaded`, 'success');
+        document.getElementById('questionLinks').value = '';
+        loadManageQuestions();
+    }
+
+    // Upload Answers
+    async function uploadAnswers() {
+        const subject = document.getElementById('aSubject').value;
+        const linksText = document.getElementById('answerLinks').value;
+        
+        if (!linksText.trim()) {
+            showMessage('answerMsg', 'Paste image links', 'error');
+            return;
+        }
+        
+        const links = linksText.split('\n').filter(l => l.trim());
+        let success = 0;
+        
+        showMessage('answerMsg', `Uploading ${links.length} answers...`, 'success');
+        
+        for (let i = 0; i < links.length; i++) {
+            const link = links[i].trim();
+            if (!link) continue;
+            try {
+                const res = await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        action: 'addAnswer',
+                        adminKey: ADMIN_SECRET,
+                        questionId: `ANS_${Date.now()}_${i}`,
+                        answerImageUrl: link,
+                        answerText: ''
+                    })
+                });
+                const data = await res.json();
+                if (data.success) success++;
+            } catch(e) {}
+        }
+        
+        showMessage('answerMsg', `✅ Done! ${success} uploaded`, 'success');
+        document.getElementById('answerLinks').value = '';
+        loadManageAnswers();
+    }
+
+    // Load and display questions for management
+    async function loadManageQuestions() {
+        const subject = document.getElementById('manageSubject').value;
+        const container = document.getElementById('questionsManageList');
+        container.innerHTML = 'Loading...';
+        
+        try {
+            const res = await fetch(`${GOOGLE_SCRIPT_URL}?action=getQuestions&subjectId=${subject}`);
+            const data = await res.json();
+            
+            if (data.success && data.questions) {
+                if (data.questions.length === 0) {
+                    container.innerHTML = '<p>No questions for this subject.</p>';
+                    return;
+                }
+                
+                let html = '<table><thead><tr><th>Image</th><th>ID</th><th>Delete</th></tr></thead><tbody>';
+                data.questions.forEach(q => {
+                    html += `
+                        <tr>
+                            <td><img src="${q.questionImageUrl}" class="preview-img" onerror="this.src='https://via.placeholder.com/50?text=No+Image'"></td>
+                            <td style="font-size:11px;">${q.id.substring(0, 20)}...</td>
+                            <td><button class="delete-btn" onclick="deleteQuestion('${q.id}', '${subject}')">🗑️ Delete</button></td>
+                        </tr>
+                    `;
+                });
+                html += '</tbody></table>';
+                container.innerHTML = html;
+            } else {
+                container.innerHTML = '<p>Error loading questions</p>';
+            }
+        } catch(e) {
+            container.innerHTML = '<p>Error loading</p>';
+        }
+    }
+
+    // Delete Question
+    async function deleteQuestion(id, subject) {
+        if (confirm(`Delete question ${id}?`)) {
+            try {
+                const res = await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        action: 'deleteQuestion',
+                        adminKey: ADMIN_SECRET,
+                        id: id
+                    })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    alert('Question deleted!');
+                    loadManageQuestions();
+                } else {
+                    alert('Delete failed. You may need to manually delete from Google Sheet.');
+                }
+            } catch(e) {
+                alert('Error. Please manually delete from Google Sheets "questions" tab');
+            }
+        }
+    }
+
+    // Load and display answers for management
+    async function loadManageAnswers() {
+        const container = document.getElementById('answersManageList');
+        container.innerHTML = 'Loading...';
+        
+        try {
+            const res = await fetch(`${GOOGLE_SCRIPT_URL}?action=getQuestions&subjectId=mathematics`);
+            const data = await res.json();
+            
+            if (data.success && data.questions) {
+                let html = '<table><thead><tr><th>Answer Image</th><th>Question ID</th><th>Delete</th></tr></thead><tbody>';
+                
+                for (let i = 0; i < data.questions.length; i++) {
+                    const q = data.questions[i];
+                    const answerRes = await fetch(`${GOOGLE_SCRIPT_URL}?action=getAnswer&questionId=${q.id}`);
+                    const answerData = await answerRes.json();
+                    
+                    if (answerData.success && answerData.answerImageUrl) {
+                        html += `
+                            <tr>
+                                <td><img src="${answerData.answerImageUrl}" class="preview-img" onerror="this.src='https://via.placeholder.com/50?text=No+Image'"></td>
+                                <td style="font-size:11px;">${q.id.substring(0, 20)}...</td>
+                                <td><button class="delete-btn" onclick="deleteAnswer('${q.id}')">🗑️ Delete</button></td>
+                            </tr>
+                        `;
+                    }
+                }
+                html += '</tbody></table>';
+                container.innerHTML = html;
+            } else {
+                container.innerHTML = '<p>No answers found</p>';
+            }
+        } catch(e) {
+            container.innerHTML = '<p>Error loading</p>';
+        }
+    }
+
+    // Delete Answer
+    async function deleteAnswer(questionId) {
+        if (confirm(`Delete answer for question ${questionId}?`)) {
+            alert('Please manually delete from Google Sheets "answers" tab');
+            loadManageAnswers();
+        }
+    }
+
+    // Load PINs
+    async function loadPins() {
+        try {
+            const res = await fetch(GOOGLE_SCRIPT_URL, {
+                method: 'POST',
+                body: JSON.stringify({ action: 'getAllPins', adminKey: ADMIN_SECRET })
+            });
+            const data = await res.json();
+            if (data.success && data.pins) {
+                let html = '<table><thead><tr><th>PIN</th><th>Student</th><th>Phone</th><th>Status</th></tr></thead><tbody>';
+                data.pins.forEach(p => {
+                    html += `<tr>
+                        <td><strong>${p.pinCode}</strong></td>
+                        <td>${p.studentName || '-'}</td>
+                        <td>${p.studentPhone || '-'}</td>
+                        <td>${p.status === 'active' ? '🟢 Active' : '🔴 Used'}</td>
+                    </tr>`;
+                });
+                html += '</tbody></table>';
+                document.getElementById('pinsList').innerHTML = html;
+            }
+        } catch(e) {}
+    }
+
+    function showMessage(el, msg, type) {
+        const elem = document.getElementById(el);
+        elem.innerHTML = msg;
+        elem.className = `message ${type}`;
+        setTimeout(() => elem.style.display = 'none', 4000);
+    }
+
+    function copyToClipboard(text) {
+        navigator.clipboard.writeText(text);
+        alert('Copied: ' + text);
+    }
+</script>
+</body>
+</html>
