@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Expo Express</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0a1a;
+            color: #fff;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #1a1a3a, #0f0f2a);
+            padding: 25px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            border: 1px solid #ff6600;
+        }
+
+        h1 {
+            color: #ffaa44;
+        }
+
+        /* Login Screen */
+        .login-screen {
+            max-width: 400px;
+            margin: 100px auto;
+            background: #1a1a3a;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+        }
+
+        .login-screen input {
+            width: 100%;
+            padding: 15px;
+            margin: 15px 0;
+            background: #0f0f2a;
+            border: 1px solid #333;
+            border-radius: 10px;
+            color: white;
+            font-size: 16px;
+        }
+
+        .login-screen button {
+            background: #ff6600;
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        /* Dashboard Tabs */
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background: #1a1a3a;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 10px;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .tab-btn.active {
+            background: #ff6600;
+        }
+
+        .tab-pane {
+            display: none;
+            background: #1a1a3a;
+            padding: 25px;
+            border-radius: 20px;
+        }
+
+        .tab-pane.active {
+            display: block;
+        }
+
+        /* Forms */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #aaa;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            background: #0f0f2a;
+            border: 1px solid #333;
+            border-radius: 10px;
+            color: white;
+            font-size: 14px;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        button {
+            background: #ff6600;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background: #ff8844;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #333;
+        }
+
+        th {
+            background: #0f0f2a;
+            color: #ffaa44;
+        }
+
+        .status-active {
+            color: #44ff44;
+        }
+
+        .status-used {
+            color: #ff4444;
+        }
+
+        .message {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .message.success {
+            background: #1a3a1a;
+            color: #88ff88;
+            display: block;
+        }
+
+        .message.error {
+            background: #3a1a1a;
+            color: #ff8888;
+            display: block;
+        }
+
+        .pin-code {
+            background: #ff6600;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 16px;
+        }
+
+        .copy-btn {
+            background: #333;
+            padding: 5px 10px;
+            margin-left: 10px;
+            font-size: 12px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Login Screen -->
+    <div id="loginScreen" class="login-screen">
+        <h2>🔐 Admin Login</h2>
+        <p>Enter your password to access dashboard</p>
+        <input type="password" id="adminPassword" placeholder="Enter password">
+        <button onclick="login()">Login</button>
+        <div id="loginMessage" class="message"></div>
+    </div>
+
+    <!-- Dashboard (hidden until login) -->
+    <div id="dashboard" style="display: none;">
+        <div class="header">
+            <h1>📊 Admin Dashboard</h1>
+            <p>Manage PINs, Questions & Answers</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="showTab('generate')">🔑 Generate PIN</button>
+            <button class="tab-btn" onclick="showTab('upload')">📤 Upload Q&A</button>
+            <button class="tab-btn" onclick="showTab('pins')">📋 PINs Usage</button>
+            <button class="tab-btn" onclick="showTab('questions')">📝 Manage Questions</button>
+        </div>
+
+        <!-- Tab 1: Generate PIN -->
+        <div id="generateTab" class="tab-pane active">
+            <h3>Generate New PIN</h3>
+            <p>Create a one-time PIN for a student after payment</p>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>Student Full Name</label>
+                    <input type="text" id="studentName" placeholder="e.g., John Doe">
+                </div>
+                <div class="form-group">
+                    <label>Student Phone Number</label>
+                    <input type="text" id="studentPhone" placeholder="e.g., 08012345678">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Select Subject</label>
+                <select id="pinSubject">
+                    <option value="mathematics">📐 Mathematics</option>
+                    <option value="english">📖 English Language</option>
+                    <option value="physics">⚡ Physics</option>
+                    <option value="chemistry">🧪 Chemistry</option>
+                    <option value="biology">🧬 Biology</option>
+                    <option value="economics">📊 Economics</option>
+                    <option value="government">🏛️ Government</option>
+                </select>
+            </div>
+            <button onclick="generatePIN()">✨ Generate PIN</button>
+            <div id="pinResult" class="message"></div>
+        </div>
+
+        <!-- Tab 2: Upload Q&A -->
+        <div id="uploadTab" class="tab-pane">
+            <h3>Upload Question & Answer</h3>
+            <div class="grid-2">
+                <div>
+                    <h4>📌 Add Question</h4>
+                    <div class="form-group">
+                        <label>Subject</label>
+                        <select id="questionSubject">
+                            <option value="mathematics">Mathematics</option>
+                            <option value="english">English</option>
+                            <option value="physics">Physics</option>
+                            <option value="chemistry">Chemistry</option>
+                            <option value="biology">Biology</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Question Image URL (from ImgBB)</label>
+                        <input type="text" id="questionImage" placeholder="https://i.ibb.co/xxx/image.jpg">
+                    </div>
+                    <div class="form-group">
+                        <label>OR Question Text</label>
+                        <textarea id="questionText" placeholder="Type question here..."></textarea>
+                    </div>
+                    <button onclick="addQuestion()">➕ Upload Question</button>
+                </div>
+                <div>
+                    <h4>📝 Add Answer</h4>
+                    <div class="form-group">
+                        <label>Select Question ID</label>
+                        <select id="answerQuestionId">
+                            <option value="">Load questions first</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Answer Image URL (from ImgBB)</label>
+                        <input type="text" id="answerImage" placeholder="https://i.ibb.co/xxx/answer.jpg">
+                    </div>
+                    <div class="form-group">
+                        <label>OR Answer Text</label>
+                        <textarea id="answerText" placeholder="Type answer here..."></textarea>
+                    </div>
+                    <button onclick="addAnswer()">📤 Upload Answer</button>
+                </div>
+            </div>
+            <div id="uploadMessage" class="message"></div>
+        </div>
+
+        <!-- Tab 3: PINs Usage -->
+        <div id="pinsTab" class="tab-pane">
+            <h3>PIN Usage History</h3>
+            <button onclick="loadAllPins()" style="margin-bottom: 15px;">🔄 Refresh</button>
+            <div id="pinsTableContainer">
+                <table id="pinsTable">
+                    <thead>
+                        <tr><th>PIN Code</th><th>Subject</th><th>Student</th><th>Phone</th><th>Status</th><th>Used At</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td colspan="6">Loading...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Tab 4: Manage Questions -->
+        <div id="questionsTab" class="tab-pane">
+            <h3>All Questions</h3>
+            <button onclick="loadAllQuestions()" style="margin-bottom: 15px;">🔄 Refresh</button>
+            <div id="questionsContainer">Loading...</div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // YOUR GOOGLE SCRIPT URL
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyPJjAorfJOd7XuM0I2zX_65zqGMTbRJa046y0yjbKapItO-MZHRi4LQVQ0FHQJx9Df/exec";
+    const ADMIN_SECRET = "XPRESS_ADMIN_2024_SECRET";
+
+    // Login
+    function login() {
+        const password = document.getElementById('adminPassword').value;
+        if (password === 'mathewexpo') {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'block';
+            loadAllPins();
+            loadQuestionsForSelect();
+        } else {
+            const msg = document.getElementById('loginMessage');
+            msg.innerHTML = '❌ Wrong password. Use: admin123';
+            msg.className = 'message error';
+            setTimeout(() => msg.style.display = 'none', 3000);
+        }
+    }
+
+    function showTab(tabName) {
+        document.querySelectorAll('.tab-pane').forEach(tab => tab.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        
+        document.getElementById(`${tabName}Tab`).classList.add('active');
+        event.target.classList.add('active');
+        
+        if (tabName === 'pins') loadAllPins();
+        if (tabName === 'questions') loadAllQuestions();
+        if (tabName === 'upload') loadQuestionsForSelect();
+    }
+
+    // Generate PIN
+    async function generatePIN() {
+        const studentName = document.getElementById('studentName').value;
+        const studentPhone = document.getElementById('studentPhone').value;
+        const subjectId = document.getElementById('pinSubject').value;
+        
+        if (!studentName || !studentPhone) {
+            showMessage('pinResult', 'Please fill all fields', 'error');
+            return;
+        }
+        
+        try {
+            const response = await fetch(GOOGLE_SCRIPT_URL, {
+                method: 'POST',
+                body: JSON.stringify({
+                    action: 'generatePin',
+                    adminKey: ADMIN_SECRET,
+                    studentName: studentName,
+                    studentPhone: studentPhone,
+                    subjectId: subjectId
+                })
+            });
+            const data = await response.json();
+            
+            if (data.success) {
+                document.getElementById('pinResult').innerHTML = `
+                    ✅ PIN Generated!<br>
+                    <span class="pin-code">${data.pinCode}</span>
+                    <button class="copy-btn" onclick="copyToClipboard('${data.pinCode}')">📋 Copy</button>
+                    <br>Send this PIN to the student via WhatsApp.
+                `;
+                document.getElementById('pinResult').className = 'message success';
+                document.getElementById('studentName').value = '';
+                document.getElementById('studentPhone').value = '';
+            } else {
+                showMessage('pinResult', 'Error: ' + data.error, 'error');
+            }
+        } catch (err) {
+            showMessage('pinResult', 'Network error', 'error');
+        }
+    }
+
+    // Add Question
+    async function addQuestion() {
+        const subjectId = document.getElementById('questionSubject').value;
+        const questionImage = document.getElementById('questionImage').value;
+        const questionText = document.getElementById('questionText').value;
+        
+        if (!questionImage && !questionText) {
+            showMessage('uploadMessage', 'Please provide image URL OR text', 'error');
+            return;
+        }
+        
+        try {
+            const response = await fetch(GOOGLE_SCRIPT_URL, {
+                method: 'POST',
+                body: JSON.stringify({
+                    action: 'addQuestion',
+                    adminKey: ADMIN_SECRET,
+                    subjectId: subjectId,
+                    questionImageUrl: questionImage,
+                    questionText: questionText
+                })
+            });
+            const data = await response.json();
+            
+            if (data.success) {
+                showMessage('uploadMessage', '✅ Question uploaded!', 'success');
+                document.getElementById('questionImage').value = '';
+                document.getElementById('questionText').value = '';
+                loadQuestionsForSelect();
+            } else {
+                showMessage('uploadMessage', 'Error: ' + data.error, 'error');
+            }
+        } catch (err) {
+            showMessage('uploadMessage', 'Network error', 'error');
+        }
+    }
+
+    // Add Answer
+    async function addAnswer() {
+        const questionId = document.getElementById('answerQuestionId').value;
+        const answerImage = document.getElementById('answerImage').value;
+        const answerText = document.getElementById('answerText').value;
+        
+        if (!questionId) {
+            showMessage('uploadMessage', 'Select a question first', 'error');
+            return;
+        }
+        
+        if (!answerImage && !answerText) {
+            showMessage('uploadMessage', 'Please provide image URL OR text', 'error');
+            return;
+        }
+        
+        try {
+            const response = await fetch(GOOGLE_SCRIPT_URL, {
+                method: 'POST',
+                body: JSON.stringify({
+                    action: 'addAnswer',
+                    adminKey: ADMIN_SECRET,
+                    questionId: questionId,
+                    answerImageUrl: answerImage,
+                    answerText: answerText
+                })
+            });
+            const data = await response.json();
+            
+            if (data.success) {
+                showMessage('uploadMessage', '✅ Answer uploaded!', 'success');
+                document.getElementById('answerImage').value = '';
+                document.getElementById('answerText').value = '';
+            } else {
+                showMessage('uploadMessage', 'Error: ' + data.error, 'error');
+            }
+        } catch (err) {
+            showMessage('uploadMessage', 'Network error', 'error');
+        }
+    }
+
+    // Load all PINs
+    async function loadAllPins() {
+        try {
+            const response = await fetch(GOOGLE_SCRIPT_URL, {
+                method: 'POST',
+                body: JSON.stringify({ action: 'getAllPins', adminKey: ADMIN_SECRET })
+            });
+            const data = await response.json();
+            
+            if (data.success && data.pins) {
+                const tbody = document.querySelector('#pinsTable tbody');
+                tbody.innerHTML = '';
+                data.pins.forEach(pin => {
+                    tbody.innerHTML += `
+                        <tr>
+                            <td><strong>${pin.pinCode}</strong></td>
+                            <td>${pin.subjectId}</td>
+                            <td>${pin.studentName || '-'}</td>
+                            <td>${pin.studentPhone || '-'}</td>
+                            <td class="${pin.status === 'active' ? 'status-active' : 'status-used'}">${pin.status}</td>
+                            <td>${pin.usedAt ? new Date(pin.usedAt).toLocaleString() : '-'}</td>
+                        </tr>
+                    `;
+                });
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
+    // Load questions for dropdown
+    async function loadQuestionsForSelect() {
+        try {
+            const response = await fetch(`${GOOGLE_SCRIPT_URL}?action=getQuestions&subjectId=mathematics`);
+            const data = await response.json();
+            if (data.success && data.questions) {
+                const select = document.getElementById('answerQuestionId');
+                select.innerHTML = '<option value="">-- Select Question --</option>';
+                data.questions.forEach(q => {
+                    select.innerHTML += `<option value="${q.id}">${q.id.substring(0, 15)}...</option>`;
+                });
+            }
+        } catch (err) {}
+    }
+
+    async function loadAllQuestions() {
+        document.getElementById('questionsContainer').innerHTML = 'Loading...';
+        // Simplified - shows from mathematics subject
+        try {
+            const response = await fetch(`${GOOGLE_SCRIPT_URL}?action=getQuestions&subjectId=mathematics`);
+            const data = await response.json();
+            if (data.success && data.questions) {
+                let html = '<table><tr><th>ID</th><th>Image</th><th>Text</th></tr>';
+                data.questions.forEach(q => {
+                    html += `<tr>
+                        <td>${q.id}</td>
+                        <td>${q.questionImageUrl ? '📷 Yes' : '-'}</td>
+                        <td>${q.questionText ? q.questionText.substring(0,50) : '-'}</td>
+                    </tr>`;
+                });
+                html += '</table>';
+                document.getElementById('questionsContainer').innerHTML = html;
+            }
+        } catch (err) {
+            document.getElementById('questionsContainer').innerHTML = 'Error loading';
+        }
+    }
+
+    function showMessage(elementId, message, type) {
+        const el = document.getElementById(elementId);
+        el.innerHTML = message;
+        el.className = `message ${type}`;
+        setTimeout(() => el.style.display = 'none', 4000);
+        el.style.display = 'block';
+    }
+
+    function copyToClipboard(text) {
+        navigator.clipboard.writeText(text);
+        alert('PIN copied: ' + text);
+    }
+</script>
+</body>
+</html>

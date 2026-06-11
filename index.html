@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Expo Express | Nigeria's Most Trusted Expo Answer Hub</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0a0a1a;
+            color: #fff;
+        }
+
+        /* Header / Hero */
+        .top-banner {
+            background: #ff6600;
+            color: #fff;
+            text-align: center;
+            padding: 8px;
+            font-size: 13px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #0a0a2a 0%, #1a1a4e 100%);
+            padding: 40px 20px;
+            text-align: center;
+            border-bottom: 3px solid #ff6600;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255,102,0,0.2);
+            padding: 5px 15px;
+            border-radius: 30px;
+            font-size: 12px;
+            color: #ffaa44;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+
+        .hero-highlight {
+            color: #ffaa44;
+        }
+
+        .hero-sub {
+            font-size: 1rem;
+            color: #ccc;
+            margin-bottom: 20px;
+        }
+
+        .whatsapp-btn-hero {
+            display: inline-block;
+            background: #25D366;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        /* Subject Grid */
+        .section {
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+        }
+
+        .subject-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .subject-chip {
+            background: #1a1a3a;
+            padding: 10px 20px;
+            border-radius: 40px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #ddd;
+        }
+
+        /* Pricing Card */
+        .pricing-card {
+            background: linear-gradient(135deg, #1a1a3a, #0f0f2a);
+            border-radius: 30px;
+            padding: 30px;
+            text-align: center;
+            border: 1px solid #ff6600;
+            margin: 30px 0;
+        }
+
+        .price {
+            font-size: 3rem;
+            color: #ffaa44;
+            font-weight: bold;
+        }
+
+        .price small {
+            font-size: 1rem;
+        }
+
+        .feature-list {
+            list-style: none;
+            margin: 20px 0;
+        }
+
+        .feature-list li {
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        /* Steps */
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .step-card {
+            background: #1a1a3a;
+            padding: 25px;
+            border-radius: 20px;
+            text-align: center;
+        }
+
+        .step-number {
+            background: #ff6600;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-weight: bold;
+        }
+
+        /* PIN Portal */
+        .pin-portal {
+            background: #1a1a3a;
+            border-radius: 30px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+
+        .pin-input-group {
+            margin: 20px 0;
+        }
+
+        .pin-input-group input, .pin-input-group select {
+            width: 100%;
+            padding: 15px;
+            border-radius: 15px;
+            border: none;
+            background: #0f0f2a;
+            color: white;
+            font-size: 16px;
+            margin-top: 8px;
+        }
+
+        .pin-btn {
+            background: #ff6600;
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+
+        /* Q&A Display */
+        .qa-container {
+            margin-top: 30px;
+        }
+
+        .qa-item {
+            background: #1a1a3a;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .qa-question {
+            color: #ffaa44;
+            margin-bottom: 10px;
+        }
+
+        .qa-question img, .qa-answer img {
+            max-width: 100%;
+            border-radius: 15px;
+            margin: 10px 0;
+        }
+
+        .qa-answer {
+            border-top: 1px solid #333;
+            margin-top: 15px;
+            padding-top: 15px;
+        }
+
+        /* Social Links */
+        .social-fixed {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 100;
+        }
+
+        .social-fixed a {
+            background: #25D366;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            font-size: 24px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        .social-fixed a.telegram {
+            background: #0088cc;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 30px;
+            background: #0a0a1a;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .message {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .error-message {
+            background: rgba(255,0,0,0.2);
+            color: #ff8888;
+        }
+
+        .success-message {
+            background: rgba(0,255,0,0.2);
+            color: #88ff88;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 1.6rem; }
+            .section-title { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-banner">
+    🔥 2026 WAEC EXPO AVAILABLE — Get Answers 6-9 Hours Before Exam! 🔥
+</div>
+
+<div class="hero">
+    <div class="hero-badge">⭐ VERIFIED UPDATE HUB ⭐</div>
+    <h1>Nigeria's Most<br><span class="hero-highlight">Trusted Expo Answer Hub</span></h1>
+    <div class="hero-sub">Get 100% verified WAEC, NECO and NABTEB answers sent directly to your WhatsApp — 6 to 9 hours before every exam.</div>
+    <a href="https://wa.me/2348025333751" class="whatsapp-btn-hero">📱 WhatsApp: 08025333751</a>
+</div>
+
+<div class="section">
+    <div class="subject-grid" id="subjectsGrid">
+        <div class="subject-chip">📐 MATHEMATICS</div>
+        <div class="subject-chip">📖 ENGLISH</div>
+        <div class="subject-chip">⚡ PHYSICS</div>
+        <div class="subject-chip">🧪 CHEMISTRY</div>
+        <div class="subject-chip">🧬 BIOLOGY</div>
+        <div class="subject-chip">📊 ECONOMICS</div>
+        <div class="subject-chip">🏛️ GOVERNMENT</div>
+        <div class="subject-chip">📚 LITERATURE</div>
+        <div class="subject-chip">🌍 GEOGRAPHY</div>
+        <div class="subject-chip">✝️ CRS/IRS</div>
+        <div class="subject-chip">💼 COMMERCE</div>
+        <div class="subject-chip">📈 ACCOUNTING</div>
+        <div class="subject-chip">🌾 AGRIC SCIENCE</div>
+        <div class="subject-chip">📐 FURTHER MATHS</div>
+        <div class="subject-chip">📜 CIVIC EDUCATION</div>
+    </div>
+
+    <div class="pricing-card">
+        <h3>📱 Subscription Plan</h3>
+        <p style="color:#aaa;">WhatsApp delivery only — answers sent 6-9 hours before exam</p>
+        <div class="price">₦2,000 <small>/ per subject</small></div>
+        <ul class="feature-list">
+            <li>✅ Delivered via WhatsApp only</li>
+            <li>✅ Answers 6-9 hours before exam</li>
+            <li>✅ Objective (OBJ) + Theory / Essay</li>
+            <li>✅ Practicals included where applicable</li>
+            <li>✅ All subjects — Science, Art, Commercial</li>
+        </ul>
+        <p><strong>IMPORTANT:</strong> After payment send via WhatsApp: (i) Full Name (ii) Subject(s) (iii) Amount Paid (iv) Phone Number to <strong>08025333751</strong></p>
+    </div>
+
+    <!-- PIN ACCESS PORTAL -->
+    <div class="pin-portal" id="pinPortal">
+        <h3 style="text-align:center;">🔐 Subscriber Answer Portal</h3>
+        <p style="text-align:center;">Enter your PIN to access questions & answers</p>
+        <div class="pin-input-group">
+            <label>Select Subject</label>
+            <select id="subjectSelect">
+                <option value="">Loading subjects...</option>
+            </select>
+        </div>
+        <div class="pin-input-group">
+            <label>Enter PIN</label>
+            <input type="text" id="pinInput" placeholder="e.g., MATH-ABC123">
+        </div>
+        <button class="pin-btn" id="verifyBtn">🔓 Access Now</button>
+        <div id="pinMessage" class="message"></div>
+    </div>
+
+    <!-- Q&A DISPLAY AREA (hidden until PIN verified) -->
+    <div id="qaDisplay" class="hidden"></div>
+</div>
+
+<div class="footer">
+    <p>© 2026 Expo Express — Verified Update Hub. WhatsApp only: 08025333751</p>
+</div>
+
+<div class="social-fixed">
+    <a href="https://wa.me/2348025333751" class="whatsapp">💬</a>
+    <a href="https://t.me/yourexpogroup" class="telegram">📢</a>
+</div>
+
+<script>
+    // ================= CONFIGURATION =================
+    // REPLACE THIS WITH YOUR GOOGLE APPS SCRIPT URL AFTER DEPLOYMENT
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyPJjAorfJOd7XuM0I2zX_65zqGMTbRJa046y0yjbKapItO-MZHRi4LQVQ0FHQJx9Df/exec";
+    
+    // ================= LOAD SUBJECTS =================
+    async function loadSubjects() {
+        try {
+            const res = await fetch(`${GOOGLE_SCRIPT_URL}?action=getSubjects`);
+            const data = await res.json();
+            if (data.success && data.subjects) {
+                const select = document.getElementById('subjectSelect');
+                select.innerHTML = '<option value="">-- Select Subject --</option>';
+                data.subjects.forEach(sub => {
+                    select.innerHTML += `<option value="${sub.id}">${sub.icon} ${sub.name} - ₦${sub.price}</option>`;
+                });
+            } else {
+                // Fallback static subjects
+                document.getElementById('subjectSelect').innerHTML = `
+                    <option value="mathematics">📐 Mathematics - ₦2000</option>
+                    <option value="english">📖 English - ₦2000</option>
+                    <option value="physics">⚡ Physics - ₦2000</option>
+                    <option value="chemistry">🧪 Chemistry - ₦2000</option>
+                `;
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
+    // ================= VERIFY PIN =================
+    document.getElementById('verifyBtn').addEventListener('click', async () => {
+        const subjectId = document.getElementById('subjectSelect').value;
+        const pin = document.getElementById('pinInput').value.toUpperCase();
+        const msgDiv = document.getElementById('pinMessage');
+        
+        if (!subjectId) {
+            msgDiv.innerHTML = '❌ Please select a subject';
+            msgDiv.className = 'message error-message';
+            return;
+        }
+        if (!pin) {
+            msgDiv.innerHTML = '❌ Please enter your PIN';
+            msgDiv.className = 'message error-message';
+            return;
+        }
+        
+        msgDiv.innerHTML = '⏳ Verifying PIN...';
+        msgDiv.className = 'message';
+        
+        try {
+            // Verify PIN
+            const verifyRes = await fetch(`${GOOGLE_SCRIPT_URL}?action=verifyPin&pin=${pin}&subjectId=${subjectId}`);
+            const verifyData = await verifyRes.json();
+            
+            if (!verifyData.success) {
+                msgDiv.innerHTML = '❌ ' + verifyData.message;
+                msgDiv.className = 'message error-message';
+                return;
+            }
+            
+            // PIN valid — load questions and answers
+            msgDiv.innerHTML = '✅ PIN verified! Loading answers...';
+            msgDiv.className = 'message success-message';
+            
+            await loadQuestionsAndAnswers(subjectId);
+            
+            // Hide PIN portal, show Q&A
+            document.getElementById('pinPortal').style.display = 'none';
+            document.getElementById('qaDisplay').classList.remove('hidden');
+            
+        } catch (err) {
+            msgDiv.innerHTML = '❌ Network error. Try again.';
+            msgDiv.className = 'message error-message';
+        }
+    });
+    
+    // ================= LOAD QUESTIONS & ANSWERS =================
+    async function loadQuestionsAndAnswers(subjectId) {
+        const qaContainer = document.getElementById('qaDisplay');
+        qaContainer.innerHTML = '<div style="text-align:center;">📖 Loading questions...</div>';
+        
+        try {
+            // Get questions for this subject
+            const qRes = await fetch(`${GOOGLE_SCRIPT_URL}?action=getQuestions&subjectId=${subjectId}`);
+            const qData = await qRes.json();
+            
+            if (!qData.success || !qData.questions || qData.questions.length === 0) {
+                qaContainer.innerHTML = '<div style="text-align:center;">⚠️ No questions uploaded yet for this subject.</div>';
+                return;
+            }
+            
+            let html = '<h3 style="margin-bottom:20px;">📝 Questions & Answers</h3>';
+            
+            for (let i = 0; i < qData.questions.length; i++) {
+                const q = qData.questions[i];
+                html += `
+                    <div class="qa-item">
+                        <div class="qa-question">
+                            <strong>Q${i+1}:</strong><br>
+                            ${q.questionText ? `<p>${q.questionText}</p>` : ''}
+                            ${q.questionImageUrl ? `<img src="${q.questionImageUrl}" alt="Question image" loading="lazy">` : ''}
+                        </div>
+                `;
+                
+                // Fetch answer for this question
+                const aRes = await fetch(`${GOOGLE_SCRIPT_URL}?action=getAnswer&questionId=${q.id}`);
+                const aData = await aRes.json();
+                
+                if (aData.success) {
+                    html += `
+                        <div class="qa-answer">
+                            <strong>✅ Answer:</strong><br>
+                            ${aData.answerText ? `<p>${aData.answerText}</p>` : ''}
+                            ${aData.answerImageUrl ? `<img src="${aData.answerImageUrl}" alt="Answer image" loading="lazy">` : ''}
+                        </div>
+                    `;
+                } else {
+                    html += `<div class="qa-answer"><strong>⚠️ Answer not uploaded yet.</strong></div>`;
+                }
+                
+                html += `</div>`;
+            }
+            
+            qaContainer.innerHTML = html;
+            
+        } catch (err) {
+            qaContainer.innerHTML = '<div style="text-align:center;">❌ Error loading content. Please refresh.</div>';
+        }
+    }
+    
+    // Load subjects on page start
+    loadSubjects();
+</script>
+</body>
+</html>
