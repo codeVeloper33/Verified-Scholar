@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Verified Scholars | Nigeria's Most Trusted Expo Hub</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0A0A0A;
+            color: #E0E0E0;
+        }
+
+        .top-banner {
+            background: #000000;
+            color: #F5A623;
+            text-align: center;
+            padding: 12px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #0A0A0A 0%, #1A1A2A 100%);
+            padding: 60px 20px;
+            text-align: center;
+            border-bottom: 3px solid #F5A623;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(245, 166, 35, 0.15);
+            padding: 6px 18px;
+            border-radius: 40px;
+            font-size: 12px;
+            color: #F5A623;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            color: #FFFFFF;
+            font-weight: 700;
+        }
+
+        .hero-highlight {
+            color: #F5A623;
+        }
+
+        .hero-sub {
+            font-size: 1rem;
+            color: #A0A0A0;
+            margin-bottom: 25px;
+        }
+
+        .whatsapp-btn-hero {
+            display: inline-block;
+            background: #25D366;
+            color: white;
+            padding: 12px 28px;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.2s ease;
+        }
+
+        .whatsapp-btn-hero:hover {
+            transform: scale(1.05);
+        }
+
+        .section {
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .subject-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+
+        .subject-chip {
+            background: #1A1A2A;
+            padding: 10px 22px;
+            border-radius: 40px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #E0E0E0;
+            border: 1px solid #2A2A3A;
+            transition: all 0.2s ease;
+        }
+
+        .subject-chip:hover {
+            border-color: #F5A623;
+            color: #F5A623;
+        }
+
+        .pricing-card {
+            background: #12121C;
+            border-radius: 24px;
+            padding: 35px;
+            text-align: center;
+            border: 1px solid rgba(245, 166, 35, 0.3);
+            margin: 30px 0;
+        }
+
+        .price {
+            font-size: 3rem;
+            color: #F5A623;
+            font-weight: bold;
+        }
+
+        .price small {
+            font-size: 1rem;
+            color: #888;
+        }
+
+        .feature-list {
+            list-style: none;
+            margin: 25px 0;
+        }
+
+        .feature-list li {
+            margin: 12px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            color: #B0B0B0;
+        }
+
+        .pin-portal {
+            background: #12121C;
+            border-radius: 24px;
+            padding: 35px;
+            margin: 30px 0;
+            border: 2px solid rgba(245, 166, 35, 0.3);
+        }
+
+        .pin-input-group {
+            margin: 20px 0;
+        }
+
+        .pin-input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #B0B0B0;
+        }
+
+        .pin-input-group input,
+        .pin-input-group select {
+            width: 100%;
+            padding: 15px;
+            border-radius: 16px;
+            border: 1px solid #2A2A3A;
+            background: #1A1A2A;
+            color: #FFFFFF;
+            font-size: 16px;
+        }
+
+        .pin-input-group input:focus,
+        .pin-input-group select:focus {
+            outline: none;
+            border-color: #F5A623;
+        }
+
+        .pin-btn {
+            background: linear-gradient(135deg, #F5A623, #E8951A);
+            color: #0A0A0A;
+            padding: 15px;
+            border: none;
+            border-radius: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            transition: all 0.2s ease;
+        }
+
+        .pin-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(245, 166, 35, 0.3);
+        }
+
+        .pin-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .content-container {
+            margin-top: 30px;
+        }
+
+        .section-header {
+            font-size: 1.5rem;
+            margin: 25px 0 15px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #F5A623;
+            color: #FFFFFF;
+            font-weight: 600;
+        }
+
+        .qa-item {
+            background: #12121C;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-left: 4px solid #F5A623;
+        }
+
+        .qa-item img {
+            max-width: 100%;
+            border-radius: 15px;
+            margin-top: 15px;
+            cursor: pointer;
+        }
+
+        .no-content {
+            background: #1A1A2A;
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            color: #888;
+            margin-bottom: 20px;
+        }
+
+        .obj-box {
+            background: #1A1A2A;
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 15px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            color: #F5A623;
+        }
+
+        .social-section {
+            text-align: center;
+            margin: 30px 0;
+            padding: 25px;
+            background: #12121C;
+            border-radius: 20px;
+        }
+
+        .social-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        .whatsapp-channel,
+        .telegram-channel {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 25px;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .whatsapp-channel {
+            background: #25D366;
+            color: white;
+        }
+
+        .telegram-channel {
+            background: #0088cc;
+            color: white;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 30px;
+            background: #000000;
+            color: #666;
+            font-size: 12px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .message {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .error-message {
+            background: rgba(211, 47, 47, 0.15);
+            color: #D32F2F;
+            border: 1px solid #D32F2F;
+        }
+
+        .success-message {
+            background: rgba(76, 175, 80, 0.15);
+            color: #4CAF50;
+            border: 1px solid #4CAF50;
+        }
+
+        .loading-message {
+            background: rgba(245, 166, 35, 0.1);
+            color: #F5A623;
+            border: 1px solid #F5A623;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #F5A623;
+            font-size: 18px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 1000;
+            cursor: pointer;
+        }
+
+        .modal-content {
+            position: relative;
+            margin: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            flex-direction: column;
+        }
+
+        .modal-img {
+            max-width: 95%;
+            max-height: 85%;
+            border-radius: 10px;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 40px;
+            cursor: pointer;
+        }
+
+        .modal-download {
+            margin-top: 20px;
+            background: #F5A623;
+            color: #000;
+            padding: 10px 25px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-banner">
+        2026 WAEC EXPO AVAILABLE — Get Answers 6-9 Hours Before Exam
+    </div>
+
+    <div class="hero">
+        <div class="hero-badge">VERIFIED SCHOLARS</div>
+        <h1>Nigeria's Most<br><span class="hero-highlight">Trusted Expo Answer Hub</span></h1>
+        <div class="hero-sub">Get 100% verified WAEC, NECO and NABTEB answers sent directly to your WhatsApp — 6 to 9 hours before every exam.</div>
+        <a href="https://wa.me/2348130014190" class="whatsapp-btn-hero">WhatsApp: +234 813 001 4190</a>
+    </div>
+
+    <div class="section">
+        <div class="subject-grid">
+            <div class="subject-chip">MATHEMATICS</div>
+            <div class="subject-chip">ENGLISH</div>
+            <div class="subject-chip">PHYSICS</div>
+            <div class="subject-chip">CHEMISTRY</div>
+            <div class="subject-chip">BIOLOGY</div>
+            <div class="subject-chip">ECONOMICS</div>
+            <div class="subject-chip">GOVERNMENT</div>
+            <div class="subject-chip">LITERATURE</div>
+            <div class="subject-chip">GEOGRAPHY</div>
+            <div class="subject-chip">CRS/IRS</div>
+            <div class="subject-chip">COMMERCE</div>
+            <div class="subject-chip">ACCOUNTING</div>
+            <div class="subject-chip">AGRIC SCIENCE</div>
+            <div class="subject-chip">FURTHER MATHS</div>
+            <div class="subject-chip">CIVIC EDUCATION</div>
+        </div>
+
+        <div class="pricing-card">
+            <h3>Subscription Plan</h3>
+            <p style="color:#888;">WhatsApp delivery only — answers sent 6-9 hours before exam</p>
+            <div class="price">2,000 <small>/ per subject</small></div>
+            <ul class="feature-list">
+                <li>Delivered via WhatsApp only</li>
+                <li>Answers 6-9 hours before exam</li>
+                <li>Objective (OBJ) + Theory / Essay</li>
+                <li>Practicals included where applicable</li>
+                <li>All subjects — Science, Art, Commercial</li>
+            </ul>
+            <p><strong>IMPORTANT:</strong> After payment send via WhatsApp: (i) Full Name (ii) Subject(s) (iii) Amount Paid (iv) Phone Number to <strong>+234 813 001 4190</strong></p>
+        </div>
+
+        <!-- PIN ACCESS PORTAL -->
+        <div class="pin-portal" id="pinPortal">
+            <h3 style="text-align:center; color:#FFF;">Subscriber Answer Portal</h3>
+            <p style="text-align:center; color:#888;">Enter your PIN to access questions & answers</p>
+            <div class="pin-input-group">
+                <label>Select Subject</label>
+                <select id="subjectSelect">
+                    <option value="">Loading subjects...</option>
+                </select>
+            </div>
+            <div class="pin-input-group">
+                <label>Enter PIN</label>
+                <input type="text" id="pinInput" placeholder="Example: MATH-ABC123">
+            </div>
+            <button class="pin-btn" id="verifyBtn">Access Now</button>
+            <div id="pinMessage" class="message"></div>
+        </div>
+
+        <!-- CONTENT DISPLAY AREA -->
+        <div id="contentDisplay" class="hidden"></div>
+
+        <!-- Social Channels -->
+        <div class="social-section">
+            <h4 style="color:#FFF;">Join Our Official Channels</h4>
+            <div class="social-buttons">
+                <a href="https://whatsapp.com/channel/0029Vb8MGGHAu3aHAoEPlR3l" class="whatsapp-channel" target="_blank">WhatsApp Channel</a>
+                <a href="https://t.me/verif1ed_waec" class="telegram-channel" target="_blank">Telegram Channel</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>2026 Verified Scholars — Trusted Expo Hub. WhatsApp: +234 813 001 4190</p>
+    </div>
+
+    <div id="imageModal" class="modal" onclick="closeModal()">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <img id="modalImage" class="modal-img" src="">
+            <a id="downloadLink" class="modal-download" download>Download Image</a>
+        </div>
+    </div>
+
+    <script>
+        // UPDATE THIS WITH YOUR APPS SCRIPT URL
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxp6sPcAuZxL6Clcg_m4sMMr1aWPVK985ayBG7z_pcEA8SdxKX67g63-pZMsvlZEfek/exec";
+
+        // Load subjects dynamically
+        async function loadSubjects() {
+            try {
+                const res = await fetch(`${GOOGLE_SCRIPT_URL}?action=getSubjects`);
+                const data = await res.json();
+                if (data.success && data.subjects) {
+                    const select = document.getElementById('subjectSelect');
+                    select.innerHTML = '<option value="">Select Subject</option>';
+                    data.subjects.forEach(sub => {
+                        select.innerHTML += `<option value="${sub.id}">${sub.name} - ₦${sub.price}</option>`;
+                    });
+                }
+            } catch(e) {
+                console.error('Error loading subjects:', e);
+                document.getElementById('subjectSelect').innerHTML = '<option value="">Error loading subjects</option>';
+            }
+        }
+
+        loadSubjects();
+
+        document.getElementById('verifyBtn').addEventListener('click', async () => {
+            const subjectId = document.getElementById('subjectSelect').value;
+            const pin = document.getElementById('pinInput').value.toUpperCase();
+            const msgDiv = document.getElementById('pinMessage');
+            const verifyBtn = document.getElementById('verifyBtn');
+
+            if (!subjectId) {
+                msgDiv.innerHTML = 'Please select a subject';
+                msgDiv.className = 'message error-message';
+                return;
+            }
+            if (!pin) {
+                msgDiv.innerHTML = 'Please enter your PIN';
+                msgDiv.className = 'message error-message';
+                return;
+            }
+
+            verifyBtn.disabled = true;
+            verifyBtn.textContent = 'Verifying...';
+
+            msgDiv.innerHTML = 'Verifying PIN... Please wait';
+            msgDiv.className = 'message loading-message';
+
+            try {
+                const verifyRes = await fetch(`${GOOGLE_SCRIPT_URL}?action=verifyPin&pin=${pin}&subjectId=${subjectId}`);
+                const verifyData = await verifyRes.json();
+
+                if (!verifyData.success) {
+                    msgDiv.innerHTML = verifyData.message;
+                    msgDiv.className = 'message error-message';
+                    verifyBtn.disabled = false;
+                    verifyBtn.textContent = 'Access Now';
+                    return;
+                }
+
+                msgDiv.innerHTML = 'PIN verified! Loading questions & answers...';
+                msgDiv.className = 'message success-message';
+
+                await loadAllContent(subjectId);
+
+                document.getElementById('pinPortal').style.display = 'none';
+                document.getElementById('contentDisplay').classList.remove('hidden');
+
+            } catch (err) {
+                msgDiv.innerHTML = 'Network error. Please try again.';
+                msgDiv.className = 'message error-message';
+            } finally {
+                verifyBtn.disabled = false;
+                verifyBtn.textContent = 'Access Now';
+            }
+        });
+
+        async function loadAllContent(subjectId) {
+            const container = document.getElementById('contentDisplay');
+            container.innerHTML = '<div class="loading">Loading questions & answers...</div>';
+
+            try {
+                const qRes = await fetch(`${GOOGLE_SCRIPT_URL}?action=getQuestions&subjectId=${subjectId}`);
+                const qData = await qRes.json();
+
+                const aRes = await fetch(`${GOOGLE_SCRIPT_URL}?action=getAnswers&subjectId=${subjectId}`);
+                const aData = await aRes.json();
+
+                let html = '';
+
+                // Questions Section
+                if (qData.success && qData.questions && qData.questions.length > 0) {
+                    for (let i = 0; i < qData.questions.length; i++) {
+                        const q = qData.questions[i];
+                        if (q.questionImageUrl) {
+                            html += `
+                                <div class="qa-item">
+                                    <img src="${q.questionImageUrl}" onclick="viewImage('${q.questionImageUrl}')" style="cursor:pointer; width:100%;">
+                                    <div style="margin-top: 10px;">
+                                        <button onclick="viewImage('${q.questionImageUrl}')" style="background:#2196F3; color:white; padding:5px 15px; border-radius:20px; margin-right:10px;">View Full Size</button>
+                                        <button onclick="downloadImage('${q.questionImageUrl}')" style="background:#4CAF50; color:white; padding:5px 15px; border-radius:20px;">Download</button>
+                                    </div>
+                                </div>
+                            `;
+                        }
+                    }
+                } else {
+                    html += `<div class="no-content">No questions uploaded yet for this subject. Check back later.</div>`;
+                }
+
+                // Answers Section
+                if (aData.success && aData.answers && aData.answers.length > 0) {
+                    for (let i = 0; i < aData.answers.length; i++) {
+                        const a = aData.answers[i];
+                        if (a.answerImageUrl) {
+                            html += `
+                                <div class="qa-item">
+                                    <img src="${a.answerImageUrl}" onclick="viewImage('${a.answerImageUrl}')" style="cursor:pointer; width:100%;">
+                                    <div style="margin-top: 10px;">
+                                        <button onclick="viewImage('${a.answerImageUrl}')" style="background:#2196F3; color:white; padding:5px 15px; border-radius:20px; margin-right:10px;">View Full Size</button>
+                                        <button onclick="downloadImage('${a.answerImageUrl}')" style="background:#4CAF50; color:white; padding:5px 15px; border-radius:20px;">Download</button>
+                                    </div>
+                                </div>
+                            `;
+                        }
+                        if (a.answerText) {
+                            html += `
+                                <div class="qa-item">
+                                    <div class="obj-box">OBJ ANSWERS:<br><br>${a.answerText.replace(/\n/g, '<br>')}</div>
+                                </div>
+                            `;
+                        }
+                    }
+                } else {
+                    html += `<div class="no-content">No answers uploaded yet for this subject. Check back later.</div>`;
+                }
+
+                container.innerHTML = html;
+
+            } catch (err) {
+                console.error('Error:', err);
+                container.innerHTML = `<div class="no-content">Error loading content. Please refresh the page.</div>`;
+            }
+        }
+
+        function viewImage(url) {
+            const modal = document.getElementById('imageModal');
+            const img = document.getElementById('modalImage');
+            const downloadLink = document.getElementById('downloadLink');
+            img.src = url;
+            downloadLink.href = url;
+            modal.style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('imageModal').style.display = 'none';
+        }
+
+        function downloadImage(url) {
+            fetch(url)
+                .then(response => response.blob())
+                .then(blob => {
+                    const link = document.createElement('a');
+                    link.href = URL.createObjectURL(blob);
+                    link.download = 'image.jpg';
+                    link.click();
+                    URL.revokeObjectURL(link.href);
+                })
+                .catch(() => window.open(url, '_blank'));
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeModal();
+        });
+    </script>
+</body>
+</html>
